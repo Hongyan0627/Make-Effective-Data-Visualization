@@ -1,0 +1,2 @@
+1. https://github.com/PMSI-AlignAlytics/dimple/wiki/dimple.chart#addSeries
+2. http://dimplejs.org/examples_viewer.html?id=bars_horizontal_floating

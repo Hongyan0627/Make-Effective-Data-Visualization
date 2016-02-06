@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
+    
+    <style>
+
+      circle.dimple-series-1 {
+        fill: red;
+      }
+
+      h2 {
+        text-align: center;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      #story {
+        float:right;
+        width:30%;
+        text-align: justify;
+        margin-right: 35px;
+        margin-top: 50px;
+      }
+
+      #container {
+        float:left;
+        width:60%;
+      }
+
+      span1 {
+        color:red;
+      }
+
+      span2 {
+        font-family: sans-serif;
+        font-style: normal;
+      }
+
+      span3 {
+        font-style: normal;
+      }
+
+      p {
+        text-decoration: none;
+        font-family: "Times New Roman", Times, serif;
+        font-style: italic;
+        font-size: 20px;
+      }
+      
+    </style>
+
+    <script type="text/javascript">
+      
+      function draw(data) {
+      
+      /*
+        D3.js setup code
+      */
+
+        "use strict";
+        var margin = 75,width = 800 - margin,height = 600 - margin;
+
+        d3.select("container")
+          .append("h2")
+            
+        var svg = d3.select("body")
+            .append("svg")
+              .attr("width", width + margin)
+              .attr("height", height + margin)
+            .append('g')
+              .attr('class','chart');
+
+      /*
+        Dimple.js Chart construction code
+      */
+        var myChart = new dimple.chart(svg, data);
+        var x = myChart.addCategoryAxis("x","height_degree");
+        x.title = "Player Height Degree";
+        var y = myChart.addMeasureAxis("y","avg");
+        y.title = "Player Performance";
+        y.tickFormat = ',.3f';
+        x.addOrderRule(["Short","Medium","Tall"]);
+        var mySeries = myChart.addSeries(null,dimple.plot.bar);
+        mySeries.aggregate = dimple.aggregateMethod.avg;
+        myChart.draw();
+
+      };
+
+    </script>
+  </head>
+  
+  <body>
+    <h1>
+      Compare the performance for different players
+    </h1>
+
+    <!-- Add stody around the data -->
+    
+    <div id = "story">
+      <p>
+        <span2>Player Height Degree:</span2> 
+
+        <p>Short : height <= 67</p>
+        <p>Medium : height <= 76 & height > 67</p>
+        <p>Tall : height > 76</p>
+      </p>
+      
+      <p>
+        <span3>From this visualization, we can see that generally short players have higher <span1>average performance </span1> than tall players. </span3>
+      </p>
+      <p>
+        Note: in the dataset, some players have zero batting average. It's probably because they were pitchers who didn't have to bat. So I removed these data before plotting.
+
+      </p>
+    </div>
+
+    <div id = "container">
+      <script type="text/javascript">
+      /*
+        Use D3 (not dimple.js) to load the TSV file
+        and pass the contents of it to the draw function
+      */
+        d3.csv("baseball_data.csv", draw);
+      </script>
+    </div>
+  </body>
+</html>
